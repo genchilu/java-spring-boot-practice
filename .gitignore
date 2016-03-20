@@ -1,0 +1,7 @@
+.metadata/
+.recommenders/
+staticMethodTest/.classpath
+staticMethodTest/.gradle/
+staticMethodTest/.project
+staticMethodTest/.settings/
+staticMethodTest/bin/
