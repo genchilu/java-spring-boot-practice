@@ -5,3 +5,8 @@ staticMethodTest/.gradle/
 staticMethodTest/.project
 staticMethodTest/.settings/
 staticMethodTest/bin/
+avoidCodeInjections/.classpath
+avoidCodeInjections/.gradle/
+avoidCodeInjections/.project
+avoidCodeInjections/.settings/
+avoidCodeInjections/bin/
