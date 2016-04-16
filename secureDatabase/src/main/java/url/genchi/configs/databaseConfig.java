@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "url.genchi.models")
-public class ReadDatabaseConfig {
+public class databaseConfig {
 
     @Value("${db.driver}")
     private String DB_DRIVER;
@@ -49,12 +49,17 @@ public class ReadDatabaseConfig {
     @Value("${entitymanager.packagesToScan}")
     private String ENTITYMANAGER_PACKAGES_TO_SCAN;
 
+    private DriverManagerDataSource initBaseDataSource () {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(DB_DRIVER);
+        dataSource.setUrl(DB_URL);
+        return dataSource;
+    }
+
     @Bean
     @Primary
     public DataSource readDataSource() {
-        DriverManagerDataSource readDataSource = new DriverManagerDataSource();
-        readDataSource.setDriverClassName(DB_DRIVER);
-        readDataSource.setUrl(DB_URL);
+        DriverManagerDataSource readDataSource = initBaseDataSource();
         readDataSource.setUsername(DB_READUSERNAME);
         readDataSource.setPassword(DB_READPASSWORD);
         return readDataSource;
@@ -62,45 +67,41 @@ public class ReadDatabaseConfig {
 
     @Bean
     public DataSource writeDataSource() {
-        DriverManagerDataSource writeDataSource = new DriverManagerDataSource();
-        writeDataSource.setDriverClassName(DB_DRIVER);
-        writeDataSource.setUrl(DB_URL);
+        DriverManagerDataSource writeDataSource = initBaseDataSource();
         writeDataSource.setUsername(DB_WRITEUSERNAME);
         writeDataSource.setPassword(DB_WRITEPASSWORD);
         return writeDataSource;
     }
 
+    private void setupSessionFactory(LocalSessionFactoryBean sessionFactoryBean) {
+        sessionFactoryBean.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
+        hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
+        hibernateProperties.put("hibernate.hbm2fddl.auto", HIBERNATE_HBM2DDL_AUTO);
+        sessionFactoryBean.setHibernateProperties(hibernateProperties);
+    }
+
     @Primary
-    @Bean
+    @Bean(name = "read")
     public LocalSessionFactoryBean readSessionFactory() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(readDataSource());
-        sessionFactoryBean.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
-        hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
-        hibernateProperties.put("hibernate.hbm2fddl.auto", HIBERNATE_HBM2DDL_AUTO);
-        sessionFactoryBean.setHibernateProperties(hibernateProperties);
+        setupSessionFactory(sessionFactoryBean);
         return sessionFactoryBean;
     }
 
-    @Bean
+    @Bean(name = "write")
     public LocalSessionFactoryBean writeSessionFactory() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(writeDataSource());
-        sessionFactoryBean.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
-        hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
-        hibernateProperties.put("hibernate.hbm2fddl.auto", HIBERNATE_HBM2DDL_AUTO);
-        sessionFactoryBean.setHibernateProperties(hibernateProperties);
+        setupSessionFactory(sessionFactoryBean);
         return sessionFactoryBean;
     }
 
     @Primary
     @Bean(name = "read")
     public HibernateTransactionManager readTransactionManager() {
-        System.out.println("get read hibernate");
         HibernateTransactionManager transactionManager = 
                 new HibernateTransactionManager();
         transactionManager.setSessionFactory(readSessionFactory().getObject());
@@ -109,10 +110,9 @@ public class ReadDatabaseConfig {
 
     @Bean(name = "write")
     public HibernateTransactionManager writeTransactionManager() {
-        System.out.println("get write hibernate");
         HibernateTransactionManager transactionManager = 
                 new HibernateTransactionManager();
         transactionManager.setSessionFactory(writeSessionFactory().getObject());
         return transactionManager;
     }
-} // class DatabaseConfig
+}

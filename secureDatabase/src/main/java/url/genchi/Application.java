@@ -25,7 +25,7 @@ public class Application {
     public String add(@RequestParam("email") String email, @RequestParam("name") String name) {
         try {
             User user = new User(email, name);
-            _userDao.save(user);
+            _userDao.saveAtWriteSession(user);
           }
           catch(Exception ex) {
             return ex.getMessage();
@@ -51,10 +51,10 @@ public class Application {
         UserDao userDao = ctx.getBean(UserDao.class);
         //System.out.println(userDao.getById(1).toString());
         User user = new User("bbb", "bbb");
-        System.out.println("save");
-        userDao.save(user);
         System.out.println("test save");
-        userDao.testSave(user);
+        userDao.saveAtWriteSession(user);
+        System.out.println("save");
+        userDao.saveAtWriteSession(user);
     }
 
 }
