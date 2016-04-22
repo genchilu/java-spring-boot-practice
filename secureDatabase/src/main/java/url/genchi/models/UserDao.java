@@ -47,5 +47,12 @@ public class UserDao {
         getWriteSession().update(user);
         return;
     }
+
+    public User getByEmail(String email) {
+        return (User) getReadSession().createQuery(
+            "from User where email = :email")
+            .setParameter("email", email)
+            .uniqueResult();
+     }
 } // class UserDao
 

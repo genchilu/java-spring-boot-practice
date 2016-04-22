@@ -34,7 +34,6 @@ public class Application {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    //@ResponseBody
     public String get(@RequestParam("id") long id) {
         User user = new User();
         try {
@@ -46,15 +45,20 @@ public class Application {
         return user.toString();
     }
 
+    @RequestMapping(value = "/getbymail", method = RequestMethod.POST)
+    public String getByMail(@RequestParam("email") String email) {
+        User user = new User();
+        try {
+            user = _userDao.getByEmail(email);
+        }
+        catch(Exception ex) {
+            return ex.getMessage();
+        }
+        return user.toString();
+    }
+
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
-        UserDao userDao = ctx.getBean(UserDao.class);
-        //System.out.println(userDao.getById(1).toString());
-        User user = new User("bbb", "bbb");
-        System.out.println("test save");
-        userDao.saveAtWriteSession(user);
-        System.out.println("save");
-        userDao.saveAtWriteSession(user);
+        SpringApplication.run(Application.class, args);
     }
 
 }

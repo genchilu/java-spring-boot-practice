@@ -21,28 +21,34 @@ public class databaseConfig {
 
     @Value("${db.driver}")
     private String DB_DRIVER;
-    
+
     @Value("${db.readpassword}")
     private String DB_READPASSWORD;
 
     @Value("${db.writepassword}")
     private String DB_WRITEPASSWORD;
-    
+
     @Value("${db.url}")
     private String DB_URL;
-    
+
     @Value("${db.readusername}")
     private String DB_READUSERNAME;
-    
+
     @Value("${db.writeusername}")
     private String DB_WRITEUSERNAME;
 
     @Value("${hibernate.dialect}")
     private String HIBERNATE_DIALECT;
-    
+
     @Value("${hibernate.show_sql}")
     private String HIBERNATE_SHOW_SQL;
-    
+
+    @Value("hibernate.format_sql")
+    private String HIBERNATE_FORMAT_SQL;
+
+    @Value("hibernate.use_sql_comments")
+    private String HIBERNATE_USE_SQL_COMMENTS;
+
     @Value("${hibernate.hbm2ddl.auto}")
     private String HIBERNATE_HBM2DDL_AUTO;
 
@@ -79,6 +85,8 @@ public class databaseConfig {
         hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
         hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
         hibernateProperties.put("hibernate.hbm2fddl.auto", HIBERNATE_HBM2DDL_AUTO);
+        hibernateProperties.put("hibernate.format_sql", HIBERNATE_FORMAT_SQL);
+        //hibernateProperties.put("hibernate.use_sql_comments", HIBERNATE_USE_SQL_COMMENTS);
         sessionFactoryBean.setHibernateProperties(hibernateProperties);
     }
 
