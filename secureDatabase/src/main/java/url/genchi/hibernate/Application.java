@@ -1,4 +1,4 @@
-package url.genchi;
+package url.genchi.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -10,22 +10,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import url.genchi.models.User;
-import url.genchi.models.UserDao;
+import url.genchi.hibernate.daos.read.UserReadDao;
+import url.genchi.hibernate.daos.write.UserWriteDao;
+import url.genchi.hibernate.entities.User;
 
 @SpringBootApplication
 @RestController
 public class Application {
 
     @Autowired
-    private UserDao _userDao;
+    private UserWriteDao _userDao;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String add(@RequestParam("email") String email, @RequestParam("name") String name) {
         try {
             User user = new User(email, name);
-            _userDao.saveAtWriteSession(user);
+            //_userDao.saveAtWriteSession(user);
           }
           catch(Exception ex) {
             return ex.getMessage();
@@ -46,7 +47,7 @@ public class Application {
     }
 
     @RequestMapping(value = "/getbymail", method = RequestMethod.POST)
-    public String getByMail(@RequestParam("email") String email) {
+    public String get(@RequestParam("email") String email) {
         User user = new User();
         try {
             user = _userDao.getByEmail(email);
@@ -58,7 +59,13 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        UserReadDao userReadDao = ctx.getBean(UserReadDao.class);
+        UserWriteDao userWriteDao = ctx.getBean(UserWriteDao.class);
+        User user1 = new User("test2", "test2");
+        User user2 = new User("test2", "test2");
+        userWriteDao.save(user1);
+        userReadDao.save(user2);
     }
 
 }
