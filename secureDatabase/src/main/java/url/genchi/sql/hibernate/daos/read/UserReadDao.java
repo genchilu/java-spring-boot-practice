@@ -1,10 +1,10 @@
-package url.genchi.hibernate.daos.read;
+package url.genchi.sql.hibernate.daos.read;
 
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import url.genchi.hibernate.entities.User;
+import url.genchi.sql.hibernate.entities.User;
 
 @Transactional
 public interface UserReadDao extends CrudRepository<User, Long> {

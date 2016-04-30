@@ -1,4 +1,4 @@
-package url.genchi.jdbc.configs;
+package url.genchi.sql.jdbc.configs;
 
 import javax.sql.DataSource;
 

@@ -1,4 +1,4 @@
-package url.genchi.hibernate.entities;
+package url.genchi.sql.hibernate.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

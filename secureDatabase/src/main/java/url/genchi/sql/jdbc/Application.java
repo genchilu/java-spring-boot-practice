@@ -1,4 +1,4 @@
-package url.genchi.jdbc;
+package url.genchi.sql.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,13 +28,27 @@ public class Application {
     @Qualifier("writeJdbc")
     JdbcTemplate writeJdbcTemplate;
 
-    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/unsecure/get", method = RequestMethod.GET)
     @Transactional
-    public String get(@RequestParam("id") long id) {
-        return readJdbcTemplate.query("SELECT * FROM USERS", new UserRowMapper()).toString();
+    //it would be dangerous while name is %27%20OR%20%271%27=%271
+    public String getunsecure(@RequestParam("name") String name) {
+        return readJdbcTemplate.query("SELECT * FROM USERS WHERE NAME = '" + name + "'", new UserRowMapper()).toString();
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/secure/get", method = RequestMethod.GET)
+    @Transactional
+    public String getsecure(@RequestParam("name") String name) {
+        name = name.replaceAll("'", "''");
+        return readJdbcTemplate.query("SELECT * FROM USERS WHERE NAME = '" + name + "'", new UserRowMapper()).toString();
+    }
+
+    @RequestMapping(value = "/preparedstatement/get", method = RequestMethod.GET)
+    @Transactional
+    public String getpreparedstatement(@RequestParam("name") String name) {
+        return readJdbcTemplate.query("SELECT * FROM USERS WHERE NAME = ?", new Object[] {name}, new UserRowMapper()).toString();
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     @ResponseBody
     @Transactional
     public String add(@RequestParam("email") String email, @RequestParam("name") String name) {
@@ -73,3 +87,4 @@ public class Application {
         }
     }
 }
+

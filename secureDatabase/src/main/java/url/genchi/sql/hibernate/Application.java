@@ -1,4 +1,4 @@
-package url.genchi.hibernate;
+package url.genchi.sql.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import url.genchi.hibernate.daos.read.UserReadDao;
-import url.genchi.hibernate.daos.write.UserWriteDao;
-import url.genchi.hibernate.entities.User;
+import url.genchi.sql.hibernate.daos.read.UserReadDao;
+import url.genchi.sql.hibernate.daos.write.UserWriteDao;
+import url.genchi.sql.hibernate.entities.User;
 
 @SpringBootApplication
 @RestController
