@@ -33,7 +33,6 @@ public class MongoReadConfig extends AbstractMongoConfiguration {
         return db;
     }
     public Mongo mongo() throws Exception {
-        System.out.println("get read");
         return new MongoClient(new MongoClientURI( "mongodb://" + user + ":" + passwd + "@" + mongoIp));
     }
     @Bean(name = "read")

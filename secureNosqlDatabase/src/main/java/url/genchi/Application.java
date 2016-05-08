@@ -1,5 +1,6 @@
 package url.genchi;
 
+import com.mongodb.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import url.genchi.entities.User;
 import url.genchi.repository.read.MongoReadRepository;
 import url.genchi.repository.write.MongoWriteRepository;
+
+import java.net.UnknownHostException;
 
 /**
  * Created by genchilu on 2016/5/3.
@@ -24,13 +27,14 @@ public class Application {
     public String index() {
         return "Greetings from Spring Boot!";
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
-        MongoWriteRepository writeRepository = ctx.getBean(MongoWriteRepository.class);
-        User user1 = new User("222", "222");
-        writeRepository.save(user1);
-        MongoReadRepository ReadRepository = ctx.getBean(MongoReadRepository.class);
-        User user2 = new User("222u", "222u");
-        ReadRepository.save(user2);
+//        MongoWriteRepository writeRepository = ctx.getBean(MongoWriteRepository.class);
+//        User user1 = new User("John", "1");
+//        User user2 = new User("Mary", "2");
+//        writeRepository.save(user1);
+//        writeRepository.save(user2);
+        MongoReadRepository readRepository = ctx.getBean(MongoReadRepository.class);
+        System.out.println(readRepository.countName("John;"));
     }
 }

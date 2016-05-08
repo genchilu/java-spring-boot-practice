@@ -35,12 +35,10 @@ public class MongoWriteConfig extends AbstractMongoConfiguration {
         return db;
     }
     public Mongo mongo() throws Exception {
-        System.out.println("get write db");
         return new MongoClient(new MongoClientURI( "mongodb://" + user + ":" + passwd + "@" + mongoIp));
     }
     @Bean(name = "write")
     public MongoTemplate mongoTemplate() throws Exception {
-        System.out.println("get write template");
         return new MongoTemplate(mongo(), db);
     }
 
