@@ -13,4 +13,5 @@
 */gradlew.bat
 */*.iml
 */build/
+*/settings.gradle
 spring-boot-samples/
