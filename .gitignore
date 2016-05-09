@@ -7,4 +7,10 @@
 */.project
 */.settings/
 */bin/
+*/.idea/
+*/gradle/
+*/gradlew
+*/gradlew.bat
+*/*.iml
+*/build/
 spring-boot-samples/
