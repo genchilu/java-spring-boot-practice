@@ -29,11 +29,11 @@ public class Application {
     }
     public static void main(String[] args) throws UnknownHostException {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
-//        MongoWriteRepository writeRepository = ctx.getBean(MongoWriteRepository.class);
-//        User user1 = new User("John", "1");
-//        User user2 = new User("Mary", "2");
-//        writeRepository.save(user1);
-//        writeRepository.save(user2);
+        MongoWriteRepository writeRepository = ctx.getBean(MongoWriteRepository.class);
+        User user1 = new User("John", "1");
+        User user2 = new User("Mary", "2");
+        writeRepository.save(user1);
+        writeRepository.save(user2);
         MongoReadRepository readRepository = ctx.getBean(MongoReadRepository.class);
         System.out.println(readRepository.countName("John;"));
     }
