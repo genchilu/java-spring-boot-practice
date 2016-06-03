@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class AsyncService {
-    @Async
+    //@Async
     public Future<String> findUser(String user) throws InterruptedException {
         System.out.println("Looking up " + user);
         Thread.sleep(10000);

@@ -1,21 +1,25 @@
 package url.genchi;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.Future;
 
+@RestController
 @SpringBootApplication
 @EnableAsync
-public class Application implements CommandLineRunner {
+public class Application {
+
     @Autowired
     AsyncService asyncService;
 
-    @Override
-    public void run(String... args) throws Exception {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String asyncFun() throws Exception{
         // Start the clock
         long start = System.currentTimeMillis();
 
@@ -34,6 +38,7 @@ public class Application implements CommandLineRunner {
         System.out.println(page1.get());
         System.out.println(page2.get());
         System.out.println(page3.get());
+        return "total time: " + Long.toString(System.currentTimeMillis() - start) + "ms";
     }
 
     public static void main(String[] args) {
