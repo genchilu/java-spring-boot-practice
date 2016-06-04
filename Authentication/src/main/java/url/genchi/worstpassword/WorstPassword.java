@@ -1,6 +1,7 @@
 package url.genchi.worstpassword;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
@@ -17,7 +18,7 @@ public class WorstPassword {
     private WorstPassword(){
         try {
             String dictPath = getClass().getClassLoader().getResource("worst-password.txt").getFile();
-            this.dict = Files.readLines(new File(dictPath), Charsets.UTF_8,
+            Set<String> tmpDict = Files.readLines(new File(dictPath), Charsets.UTF_8,
                     new LineProcessor<Set<String>>() {
                         Set result = new HashSet<String>();
                         public boolean processLine(String line) {
@@ -28,6 +29,7 @@ public class WorstPassword {
                             return result;
                         }
                     });
+            this.dict = ImmutableSet.copyOf(tmpDict);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,6 +41,9 @@ public class WorstPassword {
     }
     public static WorstPassword getInstance(){
         return worstPassword;
+    }
+    public Set<String> getDict(){
+        return this.dict;
     }
     public static void main(String[] args){
         System.out.println(WorstPassword.getInstance().isWorstPassword("g7"));
