@@ -15,6 +15,6 @@ public class Encrypt {
 
     public static void main(String[] args) {
         String tmp = "b9134034";
-        System.out.println(encrypt(tmp));
+        encrypt(tmp);
     }
 }

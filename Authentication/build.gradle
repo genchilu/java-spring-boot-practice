@@ -23,4 +23,5 @@ repositories {
 dependencies {
     compile("org.mindrot:jbcrypt:0.3m")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.google.guava:guava:19.0")
 }
