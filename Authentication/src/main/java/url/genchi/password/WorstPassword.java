@@ -1,4 +1,4 @@
-package url.genchi.worstpassword;
+package url.genchi.password;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
