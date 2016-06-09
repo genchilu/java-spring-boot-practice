@@ -22,11 +22,36 @@ import java.util.Enumeration;
 @RestController
 @SpringBootApplication
 public class Application implements ServletContextInitializer{
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    private final int freshMuns = 1;
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public String test(HttpSession session) {
-        return session.getId();
+    public String login(HttpSession session) {
+        session.setAttribute("isLogin", true);
+        return "success login";
+    }
+    @RequestMapping(value="/secure", method = RequestMethod.GET)
+    @ResponseBody
+    public String secure(HttpSession session) {
+        if(session.getAttribute("isLogin") != null && Boolean.valueOf(session.getAttribute("isLogin").toString())) {
+            return "you are allowed to access normal secure info";
+        } else {
+            return "permission denied";
+        }
+    }
+    @RequestMapping(value="/secure/more", method = RequestMethod.GET)
+    @ResponseBody
+    public String moreSecure(HttpSession session) {
+        if((System.currentTimeMillis() - session.getLastAccessedTime()) < freshMuns*60*1000){
+            return "you are allowed to access more secure info";
+        } else {
+            return "permission denied";
+        }
+    }
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "logout";
     }
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.getSessionCookieConfig().setName("id");
