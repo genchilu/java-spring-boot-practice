@@ -4,6 +4,7 @@ package url.genchi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +24,11 @@ import java.util.Enumeration;
 @SpringBootApplication
 public class Application implements ServletContextInitializer{
     private final int freshMuns = 1;
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ResponseBody
+    public String index() {
+        return "hello";
+    }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
     public String login(HttpSession session) {
@@ -55,6 +61,10 @@ public class Application implements ServletContextInitializer{
     }
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.getSessionCookieConfig().setName("id");
+        servletContext.getSessionCookieConfig().setDomain("localhost");
+        servletContext.getSessionCookieConfig().setHttpOnly(true);
+        servletContext.getSessionCookieConfig().setMaxAge(-1);
+        servletContext.getSessionCookieConfig().setSecure(true);
         servletContext.addListener(new SessionListener());
     }
     public static void main(String[] args) {
