@@ -19,6 +19,16 @@ import java.util.Set;
 @RestController
 @ComponentScan
 public class Application {
+    @RequestMapping(value="/user", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUser() {
+        return "get user info";
+    }
+    @RequestMapping(value="/user", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String delUser() {
+        return "del user";
+    }
     @RequestMapping(value="/register", method= RequestMethod.POST)
     @ResponseBody
     public String register(@RequestParam(name = "user") String user, @RequestParam(name = "isAdmin", required = false,
