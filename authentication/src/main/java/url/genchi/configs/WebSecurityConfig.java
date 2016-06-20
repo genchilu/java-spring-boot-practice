@@ -21,6 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
     @Autowired
     private UserRepository _userRepo;
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+    @Autowired
+    private MyAuthenticationProvider myAuthenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,12 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
-        return new MyUserDetailsService(_userRepo);
+        return myUserDetailsService;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceBean());
-        auth.authenticationProvider(new MyAuthenticationProvider((MyUserDetailsService)userDetailsServiceBean()));
+        auth.userDetailsService(myUserDetailsService);
+        auth.authenticationProvider(myAuthenticationProvider);
     }
 }

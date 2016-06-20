@@ -18,11 +18,8 @@ import java.util.List;
  */
 @Service("MyUserDetailsImpl")
 public class MyUserDetailsService implements UserDetailsService {
+    @Autowired
     private UserRepository repo;
-    public MyUserDetailsService(){}
-    public MyUserDetailsService(UserRepository repo) {
-        this.repo = repo;
-    }
 
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user;

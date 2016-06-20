@@ -19,13 +19,9 @@ import java.util.Collection;
  */
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
+    @Autowired
     private MyUserDetailsService myUserDetailsService;
-    public MyAuthenticationProvider(){}
-    public MyAuthenticationProvider(MyUserDetailsService myUserDetailsService) {
-        this.myUserDetailsService = myUserDetailsService;
-    }
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("i'm here");
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         UserDetails user = myUserDetailsService.loadUserByUsername(username);
