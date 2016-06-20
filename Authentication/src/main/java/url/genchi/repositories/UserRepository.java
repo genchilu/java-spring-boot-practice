@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Transactional;
 import url.genchi.entities.User;
 
+import java.util.List;
+
 /**
  * Created by mac on 2016/6/5.
  */
