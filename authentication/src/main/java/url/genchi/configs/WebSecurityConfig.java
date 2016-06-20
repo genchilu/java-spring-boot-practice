@@ -6,7 +6,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import url.genchi.authentication.MyAuthenticationProvider;
 import url.genchi.password.Password;
+import url.genchi.repositories.UserRepository;
+import url.genchi.service.MyUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -15,6 +19,9 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
+    @Autowired
+    private UserRepository _userRepo;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -29,15 +36,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .and()
-                .csrf().disable();;
+                .csrf().disable();
+        ;
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(Password.encoder)
-                .usersByUsernameQuery(
-                        "SELECT USERNAME, PASSWORD, 1 AS ENABLE FROM AUTH_USER WHERE USERNAME=?")
-                .authoritiesByUsernameQuery(
-                        "SELECT USERNAME, ROLES FROM AUTH_USER WHERE USERNAME=?");
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(Password.encoder)
+//                .usersByUsernameQuery(
+//                        "SELECT USERNAME, PASSWORD, 1 AS ENABLE FROM AUTH_USER WHERE USERNAME=?")
+//                .authoritiesByUsernameQuery(
+//                        "SELECT USERNAME, ROLES FROM AUTH_USER WHERE USERNAME=?");
+//    }
+
+    @Override
+    public UserDetailsService userDetailsServiceBean() throws Exception {
+        return new MyUserDetailsService(_userRepo);
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsServiceBean());
+        auth.authenticationProvider(new MyAuthenticationProvider((MyUserDetailsService)userDetailsServiceBean()));
     }
 }
