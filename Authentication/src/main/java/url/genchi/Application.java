@@ -3,19 +3,13 @@ package url.genchi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextListener;
 import url.genchi.entities.User;
-import url.genchi.listener.SessionListener;
 import url.genchi.password.Password;
 import url.genchi.password.WorstPassword;
 import url.genchi.repositories.UserRepository;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 /**
  * Created by mac on 2016/6/5.

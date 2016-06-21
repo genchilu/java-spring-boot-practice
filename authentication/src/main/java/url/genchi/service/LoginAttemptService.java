@@ -18,12 +18,12 @@ public class LoginAttemptService {
 
     @Autowired
     private HttpServletRequest request;
-    private final int MAX_ATTEMPT = 5;
+    private final int MAX_ATTEMPT = 2;
     private LoadingCache<String, Integer> attemptsCache;
 
     public LoginAttemptService() {
         attemptsCache = CacheBuilder.newBuilder().
-                expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<String, Integer>() {
+                expireAfterWrite(1, TimeUnit.MINUTES).build(new CacheLoader<String, Integer>() {
             public Integer load(String key) {
                 return 0;
             }
@@ -31,12 +31,10 @@ public class LoginAttemptService {
     }
 
     public void loginSucceeded(String key) {
-        System.out.println("login success");
         attemptsCache.invalidate(key);
     }
 
     public void loginFailed(String key) {
-        System.out.println("login failed");
         int attempts = 0;
         try {
             attempts = attemptsCache.get(key);
