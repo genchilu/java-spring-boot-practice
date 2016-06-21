@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by mac on 2016/6/11.
  */
-@WebFilter(filterName="cacheController",urlPatterns="/*")
+@WebFilter(filterName="cacheController", urlPatterns="/*")
 public class CacheControllerFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
 

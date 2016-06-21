@@ -19,11 +19,12 @@ public class LoginAttemptService {
     @Autowired
     private HttpServletRequest request;
     private final int MAX_ATTEMPT = 2;
+    private final int bolckTimeMins = 1;
     private LoadingCache<String, Integer> attemptsCache;
 
     public LoginAttemptService() {
         attemptsCache = CacheBuilder.newBuilder().
-                expireAfterWrite(1, TimeUnit.MINUTES).build(new CacheLoader<String, Integer>() {
+                expireAfterWrite(bolckTimeMins, TimeUnit.MINUTES).build(new CacheLoader<String, Integer>() {
             public Integer load(String key) {
                 return 0;
             }
