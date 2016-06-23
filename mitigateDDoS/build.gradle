@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'gs-securing-web'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.3.5.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-redis:1.3.5.RELEASE")
+    //compile("org.springframework.session:spring-session-data-redis:1.2.0.RELEASE")
+    compile("org.springframework.session:spring-session:1.2.0.RELEASE")
+    compile("org.springframework.security:spring-security-web:4.1.0.RELEASE")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
