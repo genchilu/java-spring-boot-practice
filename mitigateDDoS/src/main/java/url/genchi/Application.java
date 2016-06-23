@@ -48,7 +48,7 @@ public class Application {
         String filePath = getClass().getClassLoader().getResource("bigfile.txt").getFile();
         File file = new File(filePath);
         FileInputStream fis = new FileInputStream(filePath);
-        response.setContentType("txt/plain");
+        response.setContentType("utf-8");
         IOUtils.copy(fis, response.getOutputStream());
         response.flushBuffer();
         fis.close();
@@ -66,12 +66,6 @@ public class Application {
     }
 
     public static void main(String[] args) throws Throwable {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
-        String[] beanNames = ctx.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames)
-        {
-            System.out.println(beanName);
-        }
+        SpringApplication.run(Application.class, args);
     }
 }
