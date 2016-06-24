@@ -1,23 +1,30 @@
-package url.genchi.messagequeue.rabbitmq;
+package url.genchi.messagequeue.rabbitmq.rpcclient;
 
 import com.rabbitmq.client.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by mac on 2016/6/23.
  */
-public class Caller {
+@Service
+public class RpcClientService {
 
     private Connection connection;
     private Channel channel;
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "rpc";
     private String replyQueueName;
     private QueueingConsumer consumer;
 
-    public Caller() throws Exception {
+    @Autowired
+    public RpcClientService(@Value("${rabbitmq.ip}") String rabbitmqIP,
+                            @Value("${rabbitmq.username}") String rabbitmqUsername,
+                            @Value("${rabbitmq.password}") String rabbitmqPassword) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.99.102");
-        factory.setUsername("g7");
-        factory.setPassword("g7");
+        factory.setHost(rabbitmqIP);
+        factory.setUsername(rabbitmqUsername);
+        factory.setPassword(rabbitmqPassword);
         connection = factory.newConnection();
         channel = connection.createChannel();
 
@@ -53,10 +60,10 @@ public class Caller {
         connection.close();
     }
     public static void main(String[] args) throws java.lang.Exception {
-        Caller caller = new Caller();
-        System.out.println(" [x] Requesting 3");
-        String response = caller.call("3");
-        System.out.println(" [.] Got '" + response + "'");
-        caller.close();
+//        RpcClientService caller = new RpcClientService();
+//        System.out.println(" [x] Requesting 3");
+//        String response = caller.call("3");
+//        System.out.println(" [.] Got '" + response + "'");
+//        caller.close();
     }
 }
