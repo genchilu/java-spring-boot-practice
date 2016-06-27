@@ -5,7 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import url.genchi.entities.User;
 import url.genchi.password.Password;
 import url.genchi.password.WorstPassword;
@@ -24,7 +27,6 @@ public class Application{
     private UserRepository _userRepo;
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    @ResponseBody
     public String signin(@RequestParam("username") String username, @RequestParam("password") String password) {
         if(_userRepo.getByUsername(username) != null) {
             return "user is already exist";
@@ -34,31 +36,6 @@ public class Application{
         _userRepo.save(new User(username, Password.encoder.encode(password), "USER"));
         return "Create user success";
     }
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String login(@RequestParam("username") String username, @RequestParam("password") String password,
-//                        HttpServletRequest request) {
-//        return username + " " + password;
-//        String ip = request.getRemoteAddr();
-//        if(Banuser.isInAuthentication(ip)) {
-//            return "Authentication already in progress";
-//        }
-//        if(!Banuser.isAllow(ip)) {
-//            return "you have been blocked!";
-//        }
-//        User user = _userRepo.getByUsername(username);
-//        if(user == null) {
-//            return "user is not exist";
-//        }
-//        boolean isValidate = Password.isValidatePassword(password, user.getPassword());
-//        if(isValidate) {
-//            Banuser.successfulAttempt(ip);
-//            return "success login";
-//        } else {
-//            Banuser.failedAttempt(ip);
-//            return "your username or password isn't correct";
-//        }
-//    }
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

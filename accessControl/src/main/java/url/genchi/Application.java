@@ -21,7 +21,6 @@ import java.util.Set;
 @ComponentScan
 public class Application {
     @RequestMapping(value="/profile/{user}", method = RequestMethod.GET)
-    @ResponseBody
     public String getUserProfile(@PathVariable("user") String user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
@@ -32,17 +31,14 @@ public class Application {
         return "permission deny";
     }
     @RequestMapping(value="/user", method = RequestMethod.GET)
-    @ResponseBody
     public String getUser() {
         return "get user info";
     }
     @RequestMapping(value="/user", method = RequestMethod.DELETE)
-    @ResponseBody
     public String delUser() {
         return "del user";
     }
     @RequestMapping(value="/register", method= RequestMethod.POST)
-    @ResponseBody
     public String register(@RequestParam(name = "user") String user, @RequestParam(name = "isAdmin", required = false,
             defaultValue = "false") Boolean isAdmin) {
         //MyUser registerUser = new MyUser(user, isAdmin); //It's not security to save isAdmin directly

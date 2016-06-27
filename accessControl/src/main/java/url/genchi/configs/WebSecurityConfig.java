@@ -20,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.GET, "/user").permitAll()
                 .antMatchers("/", "/home", "/registerNormal*").permitAll()
                 .antMatchers("/registerAdmin*").hasRole("ADMIN")
+                //.antMatchers("/profile/**").access("@webSecurity.checkUserId(authentication, #user)")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
