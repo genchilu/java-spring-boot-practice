@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'gs-spring-boot'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.3.5.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-jetty:1.3.5.RELEASE")
+    compile("org.eclipse.jetty.http2:http2-server:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-alpn-server:9.3.10.v20160621")
+    //compile("org.springframework.boot:spring-boot-starter-undertow:1.3.5.RELEASE")
+    compile("org.mortbay.jetty.alpn:alpn-boot:8.1.8.v20160420")
+
+    //因應 buildscript 下列 model 要指定版本
+    compile("org.eclipse.jetty:jetty-http:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-io:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-jndi:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-plus:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-security:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-server:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-annotations:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-continuation:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-servlet:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-servlets:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-util:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-webapp:9.3.10.v20160621")
+    compile("org.eclipse.jetty:jetty-xml:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:javax-websocket-client-impl:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:javax-websocket-server-impl:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:websocket-api:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:websocket-client:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:websocket-common:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:websocket-server:9.3.10.v20160621")
+    compile("org.eclipse.jetty.websocket:websocket-servlet:9.3.10.v20160621")
+
+
+    //lib for http2 client
+    //compile("org.springframework:spring-web:4.3.0.RELEASE")
+    //compile("org.springframework:spring-core:4.3.0.RELEASE")
+    //compile("com.squareup.okhttp3:okhttp:3.3.1")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
