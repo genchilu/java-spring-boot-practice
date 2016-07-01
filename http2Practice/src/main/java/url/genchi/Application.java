@@ -10,16 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @RestController
-@ServletComponentScan(basePackages = {"url.genchi.servlet", "url.genchi.filter"})
+@ServletComponentScan(basePackages = {"url.genchi.filter"})
 public class Application {
 
-//    @Bean
-//    UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
-//        UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
-//        factory.addBuilderCustomizers(
-//                builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
-//        return factory;
-//    }
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
         //http2 client sample
